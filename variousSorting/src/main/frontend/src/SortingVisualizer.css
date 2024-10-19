@@ -1,9 +1,9 @@
 .sorting-visualizer {
   display: flex;
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: #f5f7fa;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .main-panel {
@@ -13,7 +13,7 @@
 
 .side-panel {
   flex: 1;
-  border-left: 1px solid #e0e0e0;
+  border-left: 1px solid #e1e8ed;
   padding-left: 20px;
 }
 
@@ -23,7 +23,7 @@ h2, h3 {
 }
 
 .algorithm-description {
-  background-color: #ecf0f1;
+  background-color: #e8f4fd;
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 20px;
@@ -34,7 +34,7 @@ h2, h3 {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
   margin-bottom: 20px;
 }
 
@@ -43,23 +43,26 @@ h2, h3 {
   align-items: flex-end;
   height: 300px;
   margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f8fafc;
+  border-radius: 5px;
 }
 
 .array-bar {
   flex: 1;
   margin: 0 2px;
-  background-color: #3498db;
-  transition: height 0.3s ease;
+  transition: all 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   color: white;
   font-size: 12px;
   border-radius: 3px 3px 0 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .array-bar.active {
-  background-color: #e74c3c;
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
 }
 
 .step-description, .current-variables, .variables-info {
@@ -67,6 +70,7 @@ h2, h3 {
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .variables-grid, .variables-list {
@@ -77,9 +81,15 @@ h2, h3 {
 
 .variable-item {
   background-color: #fff;
-  padding: 8px;
+  padding: 10px;
   border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.variable-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .variable-name {
@@ -96,10 +106,11 @@ h2, h3 {
   display: flex;
   gap: 10px;
   align-items: center;
+  margin-top: 20px;
 }
 
 .controls button {
-  background-color: #2ecc71;
+  background-color: #3498db;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -109,7 +120,7 @@ h2, h3 {
 }
 
 .controls button:hover {
-  background-color: #27ae60;
+  background-color: #2980b9;
 }
 
 .controls input[type="range"] {
