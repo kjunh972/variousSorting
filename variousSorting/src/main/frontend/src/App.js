@@ -29,7 +29,7 @@ const StyledChip = styled(Chip)(({ theme }) => ({
 
 const algorithmOptions = [
   '선택 정렬', '삽입 정렬', '버블 정렬', '병합 정렬',
-  '힙 정렬', '퀵 정렬', '트리 정렬', '팀 정렬'
+  '힙 정렬', '트리 정렬',
 ];
 
 const generateSortingSteps = async (algorithm, arr) => {

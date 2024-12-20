@@ -9,30 +9,30 @@ import java.util.*;
 public class SortingService {
     public List<SortingStep> sort(String algorithm, List<Integer> numbers) {
         switch (algorithm.trim().toLowerCase()) {
+            case "선택정렬":
             case "선택 정렬":
             case "selection":
                 return selectionSort(new ArrayList<>(numbers));
+            case "삽입정렬":    
             case "삽입 정렬":
             case "insertion":
                 return insertionSort(new ArrayList<>(numbers));
+            case "버블정렬":
             case "버블 정렬":
             case "bubble":
                 return bubbleSort(new ArrayList<>(numbers));
+            case "병합정렬":
             case "병합 정렬":
             case "merge":
                 return mergeSort(new ArrayList<>(numbers));
+            case "힙정렬":
             case "힙 정렬":
             case "heap":
                 return heapSort(new ArrayList<>(numbers));
-            case "퀵 정렬":
-            case "quick":
-                return quickSort(new ArrayList<>(numbers));
+            case "트리정렬":
             case "트리 정렬":
             case "tree":
                 return treeSort(new ArrayList<>(numbers));
-            case "팀 정렬":
-            case "tim":
-                return timSort(new ArrayList<>(numbers));
             default:
                 throw new IllegalArgumentException("알 수 없는 정렬 알고리즘입니다: " + algorithm);
         }
@@ -102,7 +102,7 @@ public class SortingService {
         List<SortingStep> steps = new ArrayList<>();
         int n = arr.size();
 
-        steps.add(new SortingStep(new ArrayList<>(arr), "버블 정렬을 시작합니다. 이 알고리즘은 인접한 두 원소를 비교하여 큰 값을 뒤로 보내는 과정을 반복합니다.", new HashMap<>(), new ArrayList<>()));
+        steps.add(new SortingStep(new ArrayList<>(arr), "버블 정렬을 시작합��다. 이 알고리즘은 인접한 두 원소를 비교하여 큰 값을 뒤로 보내는 과정을 반복합니다.", new HashMap<>(), new ArrayList<>()));
 
         for (int i = 0; i < n - 1; i++) {
             boolean swapped = false;
@@ -239,59 +239,6 @@ public class SortingService {
         }
     }
 
-    private List<SortingStep> quickSort(List<Integer> arr) {
-        List<SortingStep> steps = new ArrayList<>();
-        steps.add(new SortingStep(new ArrayList<>(arr), "퀵 정렬을 시작합니다. 이 알고리즘은 피벗을 선택하고 배열을 분할하여 정렬합니다. 분할 정복 방식으로 작동하며, 평균적으로 매우 효율적입니다.", new HashMap<>(), new ArrayList<>()));
-        quickSortHelper(arr, 0, arr.size() - 1, steps);
-        steps.add(new SortingStep(new ArrayList<>(arr), "퀵 정렬이 완료되었습니다. 모든 부분 배열이 정렬되었습니다. 퀵 정렬은 평균적으로 O(n log n)의 시간 복잡도를 가지지만, 최악의 경우 O(n^2)가 될 수 있습니다.", new HashMap<>(), new ArrayList<>()));
-        return steps;
-    }
-
-    private void quickSortHelper(List<Integer> arr, int low, int high, List<SortingStep> steps) {
-        if (low < high) {
-            int pi = partition(arr, low, high, steps);
-            quickSortHelper(arr, low, pi - 1, steps);
-            quickSortHelper(arr, pi + 1, high, steps);
-        }
-    }
-
-    private int partition(List<Integer> arr, int low, int high, List<SortingStep> steps) {
-        int pivot = arr.get(high);
-        int i = (low - 1);
-
-        steps.add(new SortingStep(new ArrayList<>(arr),
-                String.format("피벗 %d를 선택했습니다(마지막 요소). 이제 피벗보다 작은 요소는 왼쪽으로, 큰 요소는 오른쪽으로 이동시킵니다.", pivot),
-                new HashMap<>(), Arrays.asList(high)));
-
-        for (int j = low; j < high; j++) {
-            if (arr.get(j) < pivot) {
-                i++;
-                Collections.swap(arr, i, j);
-                Map<String, Integer> variables = new HashMap<>();
-                variables.put("i", i);
-                variables.put("j", j);
-                variables.put("pivot", pivot);
-                List<Integer> activeIndices = Arrays.asList(i, j, high);
-                steps.add(new SortingStep(new ArrayList<>(arr),
-                        String.format("%d번째 요소 %d와 %d번째 요소 %d를 교환했습니다. %d는 피벗 %d보다 작으므로 왼쪽으로 이동했습니다.",
-                                i, arr.get(i), j, arr.get(j), arr.get(i), pivot),
-                        variables, activeIndices));
-            }
-        }
-
-        Collections.swap(arr, i + 1, high);
-        Map<String, Integer> variables = new HashMap<>();
-        variables.put("i", i + 1);
-        variables.put("pivot", pivot);
-        List<Integer> activeIndices = Arrays.asList(i + 1, high);
-        steps.add(new SortingStep(new ArrayList<>(arr),
-                String.format("피벗 %d를 %d번째 위치로 이동했습니다. 이제 피벗의 왼쪽은 모두 피벗보다 작고, 오른쪽은 모두 피벗보다 큽니다.",
-                        pivot, i + 1),
-                variables, activeIndices));
-
-        return i + 1;
-    }
-
     private List<SortingStep> treeSort(List<Integer> arr) {
         List<SortingStep> steps = new ArrayList<>();
         steps.add(new SortingStep(new ArrayList<>(arr), "트리 정렬을 시작합니다. 이 알고리즘은 이진 검색 트리를 구성하고 중위 순회하여 정렬합니다.", new HashMap<>(), new ArrayList<>()));
@@ -312,141 +259,5 @@ public class SortingService {
         steps.add(new SortingStep(new ArrayList<>(arr), "이진 검색 트리를 중위 순회하여 정렬된 결과를 얻었습니다. 트리의 왼쪽에서 오른쪽으로 순회하면 자연스럽게 오름차순으로 정렬됩니다.", new HashMap<>(), new ArrayList<>()));
         steps.add(new SortingStep(new ArrayList<>(arr), "트리 정렬이 완료되었습니다. 모든 요소가 이진 검색 트리를 통해 정렬되었습니다. 트리 정렬은 O(n log n)의 시간 복잡도를 가지며 안정적이지만, 추가 메모리를 사용합니다.", new HashMap<>(), new ArrayList<>()));
         return steps;
-    }
-
-    private List<SortingStep> timSort(List<Integer> arr) {
-        List<SortingStep> steps = new ArrayList<>();
-        steps.add(new SortingStep(new ArrayList<>(arr), "팀 정렬을 시작합니다. 이 알고리즘은 삽입 정렬과 병합 정렬을 결합한 하이브리드 정렬 알고리즘으로, 실제 데이터에서 매우 효율적입니다.", new HashMap<>(), new ArrayList<>()));
-
-        int minRun = calculateMinRun(arr.size());
-        steps.add(new SortingStep(new ArrayList<>(arr),
-                String.format("배열 크기 %d에 대한 minRun을 %d로 계산했습니다. minRun은 각 run의 최소 길이를 결정하며, 이는 팀 정렬의 효율성에 중요한 역할을 합니다.", arr.size(), minRun),
-                new HashMap<>(), new ArrayList<>()));
-
-        List<List<Integer>> runs = new ArrayList<>();
-
-        // Step 1: 배열을 minRun 크기의 run으로 분할하고 각각 정렬
-        for (int i = 0; i < arr.size(); i += minRun) {
-            int end = Math.min(i + minRun, arr.size());
-            List<Integer> run = new ArrayList<>(arr.subList(i, end));
-            steps.add(new SortingStep(new ArrayList<>(arr),
-                    String.format("Run %d를 생성했습니다: %s. 이 run을 삽입 정렬로 정렬하겠습니다. 작은 크기의 run에는 삽입 정렬이 효율적입니다.", runs.size() + 1, run),
-                    new HashMap<>(), new ArrayList<>(run)));
-
-            insertionSort(run, steps);
-            runs.add(run);
-
-            steps.add(new SortingStep(new ArrayList<>(arr),
-                    String.format("Run %d를 삽입 정렬로 정렬했습니다: %s. 이제 이 run은 정렬된 상태입니다.", runs.size(), run),
-                    new HashMap<>(), new ArrayList<>(run)));
-        }
-
-        steps.add(new SortingStep(new ArrayList<>(arr),
-                String.format("총 %d개의 run을 생성하고 각각 정렬했습니다. 이제 이 run들을 병합하는 과정을 시작합니다.", runs.size()),
-                new HashMap<>(), new ArrayList<>()));
-
-        // Step 2: Run들을 병합
-        while (runs.size() > 1) {
-            List<List<Integer>> newRuns = new ArrayList<>();
-            for (int i = 0; i < runs.size(); i += 2) {
-                if (i == runs.size() - 1) {
-                    newRuns.add(runs.get(i));
-                    steps.add(new SortingStep(new ArrayList<>(arr),
-                            String.format("Run %d는 병합할 상대가 없어 그대로 다음 단계로 넘어갑니다. 이는 run의 개수가 홀수일 때 발생합니다.", i + 1),
-                            new HashMap<>(), new ArrayList<>(runs.get(i))));
-                } else {
-                    steps.add(new SortingStep(new ArrayList<>(arr),
-                            String.format("Run %d와 Run %d를 병합하겠습니다. 병합 과정은 두 정렬된 배열을 효율적으로 하나로 합치는 과정입니다.", i + 1, i + 2),
-                            new HashMap<>(), new ArrayList<>()));
-
-                    List<Integer> mergedRun = mergeTwoRuns(runs.get(i), runs.get(i+1), steps);
-                    newRuns.add(mergedRun);
-
-                    updateArrayWithRuns(arr, newRuns, steps);
-                    steps.add(new SortingStep(new ArrayList<>(arr),
-                            String.format("Run %d와 Run %d를 병합했습니다: %s. 병합된 run도 정렬된 상태를 유지합니다.", i + 1, i + 2, mergedRun),
-                            new HashMap<>(), new ArrayList<>(mergedRun)));
-                }
-            }
-            runs = newRuns;
-            steps.add(new SortingStep(new ArrayList<>(arr),
-                    String.format("병합 단계를 완료했습니다. 현재 %d개의 run이 남아있습니다. run의 수가 줄어들면서 각 run의 크기는 커지고, 전체 배열이 점진적으로 정렬됩니다.", runs.size()),
-                    new HashMap<>(), new ArrayList<>()));
-        }
-
-        updateArrayWithRuns(arr, runs, steps);
-        steps.add(new SortingStep(new ArrayList<>(arr), "팀 정렬이 완료되었습니다. 모든 run이 병합되어 하나의 완전히 정렬된 배열이 되었습니다. 팀 정렬은 실제 데이터에서 매우 효율적이며, 안정적인 정렬 알고리즘입니다.", new HashMap<>(), new ArrayList<>()));
-        return steps;
-    }
-
-    private int calculateMinRun(int n) {
-        int r = 0;
-        while (n >= 64) {
-            r |= n & 1;
-            n >>= 1;
-        }
-        return n + r;
-    }
-
-    private void insertionSort(List<Integer> run, List<SortingStep> steps) {
-        for (int i = 1; i < run.size(); i++) {
-            int key = run.get(i);
-            int j = i - 1;
-            while (j >= 0 && run.get(j) > key) {
-                run.set(j + 1, run.get(j));
-                j--;
-            }
-            run.set(j + 1, key);
-            steps.add(new SortingStep(new ArrayList<>(run),
-                    String.format("%d를 적절한 위치에 삽입했습니다. 현재 요소 %d를 임시 변수(key)에 저장하고, 이미 정렬된 왼쪽 부분에서 key보다 큰 요소들을 오른쪽으로 이동시켰습니다. 그리고 key를 적절한 위치(%d)에 삽입했습니다.", key, key, j + 1),
-                    new HashMap<>(), Arrays.asList(j + 1)));
-        }
-    }
-
-    private List<Integer> mergeTwoRuns(List<Integer> run1, List<Integer> run2, List<SortingStep> steps) {
-        List<Integer> merged = new ArrayList<>();
-        int i = 0, j = 0;
-        while (i < run1.size() && j < run2.size()) {
-            if (run1.get(i) <= run2.get(j)) {
-                merged.add(run1.get(i));
-                steps.add(new SortingStep(new ArrayList<>(merged),
-                        String.format("%d를 병합된 리스트에 추가했습니다. Run 1과 Run 2의 현재 요소를 비교하여 더 작은 값 %d를 선택했습니다. 이 값은 Run 1의 현재 인덱스 %d에서 가져왔습니다.", run1.get(i), run1.get(i), i),
-
-                        new HashMap<>(), Arrays.asList(merged.size() - 1)));
-                i++;
-            } else {
-                merged.add(run2.get(j));
-                steps.add(new SortingStep(new ArrayList<>(merged),
-                        String.format("%d를 병합된 리스트에 추가했습니다. (Run 2에서 가져옴) 두 run의 현재 요소를 비교하여 더 작은 값 %d를 선택했습니다. 이 값은 Run 2의 현재 인덱스 %d에서 가져왔습니다.", run2.get(j), run2.get(j), j),
-                        new HashMap<>(), Arrays.asList(merged.size() - 1)));
-                j++;
-            }
-        }
-        while (i < run1.size()) {
-            merged.add(run1.get(i));
-            steps.add(new SortingStep(new ArrayList<>(merged),
-                    String.format("%d를 병합된 리스트에 추가했습니다. (Run 1의 남은 요소) Run 2의 모든 요소가 이미 사용되었으므로, Run 1의 남은 요소 %d를 그대로 추가합니다. 현재 Run 1의 인덱스는 %d입니다.", run1.get(i), run1.get(i), i),
-                    new HashMap<>(), Arrays.asList(merged.size() - 1)));
-            i++;
-        }
-        while (j < run2.size()) {
-            merged.add(run2.get(j));
-            steps.add(new SortingStep(new ArrayList<>(merged),
-                    String.format("%d를 병합된 리스트에 추가했습니다. (Run 2의 남은 요소) Run 1의 모든 요소가 이미 사용되었으므로, Run 2의 남은 요소 %d를 그대로 추가합니다. 현재 Run 2의 인덱스는 %d입니다.", run2.get(j), run2.get(j), j),
-                    new HashMap<>(), Arrays.asList(merged.size() - 1)));
-            j++;
-        }
-        return merged;
-    }
-
-    private void updateArrayWithRuns(List<Integer> arr, List<List<Integer>> runs, List<SortingStep> steps) {
-        arr.clear();
-        for (List<Integer> run : runs) {
-            arr.addAll(run);
-        }
-        // 모든 run을 하나의 배열로 합쳤음을 설명하는 단계를 추가
-        steps.add(new SortingStep(new ArrayList<>(arr),
-                String.format("모든 run을 하나의 배열로 합쳤습니다. 현재 배열의 상태: %s", arr),
-                new HashMap<>(), new ArrayList<>()));
     }
 }
