@@ -35,8 +35,8 @@ const SortingVisualizer = ({
   currentStep,
 }) => {
   const currentStepData = (steps && steps.length > 0 && steps[currentStep]) || {
-    numbers: [],
-    stepDescription: '정렬을 시작해 주세요.',
+    numbers: steps && steps.length > 0 ? steps[steps.length - 1].numbers : [],
+    stepDescription: steps && steps.length > 0 ? '정렬이 완료되었습니다.' : '정렬을 시작해 주세요.',
     variables: {}
   };
 

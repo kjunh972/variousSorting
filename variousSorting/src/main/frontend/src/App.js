@@ -10,6 +10,7 @@ import SortingVisualizer from './SortingVisualizer';
 import axios from 'axios';
 import './App.css';
 
+// Material-UI 스타일링 컴포넌트 정의
 const StyledContainer = styled(Container)(({ theme }) => ({
   padding: theme.spacing(3),
 }));
@@ -27,11 +28,13 @@ const StyledChip = styled(Chip)(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
+// 사용 가능한 정렬 알고리즘 목록
 const algorithmOptions = [
   '선택 정렬', '삽입 정렬', '버블 정렬', '병합 정렬',
   '힙 정렬', '트리 정렬',
 ];
 
+// 백엔드 API를 호출하여 정렬 단계를 가져오는 함수
 const generateSortingSteps = async (algorithm, arr) => {
   try {
     const response = await axios.post(`/api/sorting/${algorithm}`, arr);
@@ -47,20 +50,22 @@ const generateSortingSteps = async (algorithm, arr) => {
 };
 
 const App = () => {
-  const [array, setArray] = useState([]);
-  const [algorithm, setAlgorithm] = useState('선택 정렬');
-  const [steps, setSteps] = useState([]);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [isSorting, setIsSorting] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [speed, setSpeed] = useState(50);
-  const [inputNumber, setInputNumber] = useState('');
+  // 상태 관리를 위한 useState 훅 정의
+  const [array, setArray] = useState([]); // 정렬할 배열
+  const [algorithm, setAlgorithm] = useState('선택 정렬'); // 선택된 정렬 알고리즘
+  const [steps, setSteps] = useState([]); // 정렬 단계들
+  const [currentStep, setCurrentStep] = useState(0); // 현재 보여지는 단계
+  const [isSorting, setIsSorting] = useState(false); // 정렬 진행 중 여부
+  const [isPaused, setIsPaused] = useState(false); // 일시정지 상태
+  const [speed, setSpeed] = useState(50); // 정렬 속도 (0-100)
+  const [inputNumber, setInputNumber] = useState(''); // 사용자 입력 숫자
 
+  // 자동 정렬 진행을 위한 useEffect
   useEffect(() => {
     if (isSorting && !isPaused && currentStep < steps.length) {
       const timer = setTimeout(() => {
         setCurrentStep(currentStep + 1);
-      }, 1000 - speed * 10);
+      }, 1000 - speed * 10); // 속도에 따른 타이머 설정
       return () => clearTimeout(timer);
     } else if (currentStep >= steps.length) {
       setIsSorting(false);
@@ -68,6 +73,7 @@ const App = () => {
     }
   }, [isSorting, isPaused, currentStep, steps, speed]);
 
+  // 사용자가 입력한 숫자를 배열에 추가하는 함수
   const addNumber = () => {
     if (inputNumber && !isNaN(inputNumber)) {
       setArray([...array, parseInt(inputNumber)]);
@@ -75,17 +81,20 @@ const App = () => {
     }
   };
 
+  // 랜덤 숫자를 배열에 추가하는 함수
   const addRandomNumber = () => {
     const randomNumber = Math.floor(Math.random() * 100) + 1;
     setArray([...array, randomNumber]);
   };
 
+  // 배열에서 특정 인덱스의 숫자를 제거하는 함수
   const removeNumber = (index) => {
     const newArray = [...array];
     newArray.splice(index, 1);
     setArray(newArray);
   };
 
+  // 정렬을 시작하는 함수
   const startSorting = async () => {
     try {
       const sortingSteps = await generateSortingSteps(algorithm, array);
@@ -99,36 +108,43 @@ const App = () => {
     }
   };
 
+  // 정렬을 초기화하는 함수
   const resetSorting = () => {
     setIsSorting(false);
     setIsPaused(false);
     setCurrentStep(0);
-    setArray([]);
+    setSteps([]);
   };
 
+  // 정렬 일시정지/재생 토글 함수
   const togglePause = () => {
     setIsPaused(!isPaused);
   };
 
+  // 다음 단계로 이동하는 함수
   const stepForward = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
   };
 
+  // 이전 단계로 이동하는 함수
   const stepBackward = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
 
+  // UI 렌더링
   return (
     <StyledContainer>
       <Typography variant="h4" gutterBottom>정렬 알고리즘 시각화</Typography>
       <Grid container spacing={3}>
+        {/* 컨트롤 패널 */}
         <Grid item xs={12} md={4}>
           <StyledPaper>
             <Typography variant="h6" gutterBottom>컨트롤</Typography>
+            {/* 알고리즘 선택 드롭다운 */}
             <StyledControl>
               <Select
                 value={algorithm}
@@ -140,6 +156,7 @@ const App = () => {
                 ))}
               </Select>
             </StyledControl>
+            {/* 숫자 입력 필드 */}
             <StyledControl>
               <TextField
                 value={inputNumber}
@@ -151,6 +168,7 @@ const App = () => {
                 fullWidth
               />
             </StyledControl>
+            {/* 숫자 추가 버튼 */}
             <StyledControl>
               <Button
                 variant="contained"
@@ -162,6 +180,7 @@ const App = () => {
                 숫자 추가
               </Button>
             </StyledControl>
+            {/* 랜덤 숫자 추가 버튼 */}
             <StyledControl>
               <Button
                 variant="contained"
@@ -173,6 +192,7 @@ const App = () => {
                 랜덤 숫자 추가
               </Button>
             </StyledControl>
+            {/* 정렬 시작 버튼 */}
             <StyledControl>
               <Button
                 variant="contained"
@@ -184,6 +204,7 @@ const App = () => {
                 정렬 시작
               </Button>
             </StyledControl>
+            {/* 정렬 컨트롤 버튼들 */}
             {isSorting && (
               <StyledControl>
                 <Grid container spacing={1} justifyContent="center">
@@ -205,6 +226,7 @@ const App = () => {
                 </Grid>
               </StyledControl>
             )}
+            {/* 리셋 버튼 */}
             <StyledControl>
               <Button
                 variant="contained"
@@ -215,12 +237,14 @@ const App = () => {
                 리셋
               </Button>
             </StyledControl>
+            {/* 속도 조절 슬라이더 */}
             <Typography gutterBottom>속도</Typography>
             <Slider
               value={speed}
               onChange={(e, newValue) => setSpeed(newValue)}
               aria-labelledby="continuous-slider"
             />
+            {/* 현재 배열 표시 */}
             <Typography variant="h6" gutterBottom style={{ marginTop: '20px' }}>현재 배열:</Typography>
             <div>
               {array.map((num, index) => (
@@ -235,6 +259,7 @@ const App = () => {
             </div>
           </StyledPaper>
         </Grid>
+        {/* 시각화 영역 */}
         <Grid item xs={12} md={8}>
           <StyledPaper>
             <SortingVisualizer

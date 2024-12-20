@@ -2,7 +2,6 @@ package com.kjunh972.variousSorting.service;
 
 import com.kjunh972.variousSorting.DTO.SortingStep;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 @Service
@@ -38,6 +37,7 @@ public class SortingService {
         }
     }
 
+    // 선택 정렬
     private List<SortingStep> selectionSort(List<Integer> arr) {
         List<SortingStep> steps = new ArrayList<>();
         int n = arr.size();
@@ -68,6 +68,7 @@ public class SortingService {
         return steps;
     }
 
+    // 삽입 정렬
     private List<SortingStep> insertionSort(List<Integer> arr) {
         List<SortingStep> steps = new ArrayList<>();
         int n = arr.size();
@@ -98,11 +99,12 @@ public class SortingService {
         return steps;
     }
 
+    // 버블 정렬
     private List<SortingStep> bubbleSort(List<Integer> arr) {
         List<SortingStep> steps = new ArrayList<>();
         int n = arr.size();
 
-        steps.add(new SortingStep(new ArrayList<>(arr), "버블 정렬을 시작합��다. 이 알고리즘은 인접한 두 원소를 비교하여 큰 값을 뒤로 보내는 과정을 반복합니다.", new HashMap<>(), new ArrayList<>()));
+        steps.add(new SortingStep(new ArrayList<>(arr), "버블 정렬을 시작합니다. 이 알고리즘은 인접한 두 원소를 비교하여 큰 값을 뒤로 보내는 과정을 반복합니다.", new HashMap<>(), new ArrayList<>()));
 
         for (int i = 0; i < n - 1; i++) {
             boolean swapped = false;
@@ -130,6 +132,7 @@ public class SortingService {
         return steps;
     }
 
+    // 병합 정렬
     private List<SortingStep> mergeSort(List<Integer> arr) {
         List<SortingStep> steps = new ArrayList<>();
         steps.add(new SortingStep(new ArrayList<>(arr), "병합 정렬을 시작합니다. 이 알고리즘은 배열을 재귀적으로 작은 부분으로 나누고 다시 병합하며 정렬합니다.", new HashMap<>(), new ArrayList<>()));
@@ -138,6 +141,7 @@ public class SortingService {
         return steps;
     }
 
+    // 병합 정렬의 재귀적 분할을 수행하는 헬퍼 메서드
     private void mergeSortHelper(List<Integer> arr, int left, int right, List<SortingStep> steps) {
         if (left < right) {
             int mid = (left + right) / 2;
@@ -147,6 +151,7 @@ public class SortingService {
         }
     }
 
+    // 병합 정렬의 두 부분 배열을 병합하는 메서드
     private void merge(List<Integer> arr, int left, int mid, int right, List<SortingStep> steps) {
         List<Integer> leftArr = new ArrayList<>(arr.subList(left, mid + 1));
         List<Integer> rightArr = new ArrayList<>(arr.subList(mid + 1, right + 1));
@@ -182,6 +187,7 @@ public class SortingService {
                 variables, activeIndices));
     }
 
+    // 힙 정렬
     private List<SortingStep> heapSort(List<Integer> arr) {
         List<SortingStep> steps = new ArrayList<>();
         int n = arr.size();
@@ -212,6 +218,7 @@ public class SortingService {
         return steps;
     }
 
+    // 힙의 특정 노드부터 시작하여 최대 힙 속성을 만족하도록 재구성하는 메서드
     private void heapify(List<Integer> arr, int n, int i, List<SortingStep> steps) {
         int largest = i;
         int left = 2 * i + 1;
@@ -239,6 +246,7 @@ public class SortingService {
         }
     }
 
+    // 트리 정렬
     private List<SortingStep> treeSort(List<Integer> arr) {
         List<SortingStep> steps = new ArrayList<>();
         steps.add(new SortingStep(new ArrayList<>(arr), "트리 정렬을 시작합니다. 이 알고리즘은 이진 검색 트리를 구성하고 중위 순회하여 정렬합니다.", new HashMap<>(), new ArrayList<>()));

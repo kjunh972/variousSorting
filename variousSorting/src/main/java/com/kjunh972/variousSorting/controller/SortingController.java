@@ -22,13 +22,10 @@ public class SortingController {
     public ResponseEntity<?> sort(@PathVariable String algorithm, @RequestBody List<Integer> numbers) {
         try {
             algorithm = URLDecoder.decode(algorithm, StandardCharsets.UTF_8.toString());
-            System.out.println("Received request for algorithm: " + algorithm);
-            System.out.println("Numbers to sort: " + numbers);
             List<SortingStep> steps = sortingService.sort(algorithm, numbers);
             return ResponseEntity.ok(steps);
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error occurred while sorting: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error occurred: " + e.getMessage());
         }
